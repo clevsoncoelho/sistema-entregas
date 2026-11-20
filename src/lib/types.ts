@@ -3,7 +3,8 @@ export type DeliveryStatus =
   | "aguardando_coleta"
   | "em_rota"
   | "entregue"
-  | "ocorrencia";
+  | "ocorrencia"
+  | "cancelada";
 
 export interface Profile {
   id: string;

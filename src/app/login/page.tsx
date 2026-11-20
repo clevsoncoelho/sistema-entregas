@@ -4,7 +4,6 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { createClient } from "@/lib/supabase/browser";
 import { Truck, Mail, Lock, LoaderCircle } from "lucide-react";
-import type { UserRole } from "@/lib/types";
 
 export default function LoginPage() {
   const router = useRouter();
@@ -12,7 +11,6 @@ export default function LoginPage() {
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
-  const demo = !process.env.NEXT_PUBLIC_SUPABASE_URL;
 
   async function login(e: React.FormEvent) {
     e.preventDefault();
@@ -30,14 +28,10 @@ export default function LoginPage() {
       .select("role")
       .eq("id", data.user.id)
       .single();
-    const role = (profile?.role as UserRole) ?? "vendedor";
+    const role = profile?.role ?? "vendedor";
     router.replace(role === "admin" ? "/admin" : role === "motoboy" ? "/motoboy" : "/vendedor");
   }
 
-  function enterDemo(role: UserRole) {
-    document.cookie = `demo_role=${role}; path=/`;
-    router.push(role === "admin" ? "/admin" : role === "motoboy" ? "/motoboy" : "/vendedor");
-  }
 
   return (
     <main className="flex min-h-screen items-center justify-center bg-[radial-gradient(circle_at_top,#dbeafe,#f8fafc_55%)] p-4">
@@ -65,16 +59,6 @@ export default function LoginPage() {
             {loading ? <LoaderCircle className="animate-spin" /> : "Entrar"}
           </button>
         </form>
-        {demo && (
-          <div className="mt-5 border-t pt-5">
-            <p className="mb-3 text-center text-xs font-semibold uppercase tracking-wide text-slate-400">Prévia sem Supabase configurado</p>
-            <div className="grid grid-cols-3 gap-2">
-              <button onClick={() => enterDemo("vendedor")} className="rounded-lg border py-2 text-xs font-semibold hover:bg-slate-50">Vendedor</button>
-              <button onClick={() => enterDemo("motoboy")} className="rounded-lg border py-2 text-xs font-semibold hover:bg-slate-50">Motoboy</button>
-              <button onClick={() => enterDemo("admin")} className="rounded-lg border py-2 text-xs font-semibold hover:bg-slate-50">Admin</button>
-            </div>
-          </div>
-        )}
       </section>
     </main>
   );

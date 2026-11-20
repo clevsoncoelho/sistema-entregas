@@ -1,6 +1,6 @@
 create type user_role as enum ('vendedor', 'motoboy', 'admin');
 create type delivery_document_type as enum ('NF', 'OS', 'OUTRO');
-create type delivery_status as enum ('aguardando_coleta', 'em_rota', 'entregue', 'ocorrencia');
+create type delivery_status as enum ('aguardando_coleta', 'em_rota', 'entregue', 'ocorrencia', 'cancelada');
 
 create table if not exists public.profiles (
   id uuid primary key references auth.users(id) on delete cascade,
