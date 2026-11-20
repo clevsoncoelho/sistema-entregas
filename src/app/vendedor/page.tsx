@@ -5,6 +5,7 @@ import PageHeader from "@/components/PageHeader";
 import DeliveryCard from "@/components/DeliveryCard";
 import { createClient } from "@/lib/supabase/server";
 import { getCurrentProfile } from "@/lib/supabase/queries";
+export const instant = false;
 import type { Delivery } from "@/lib/types";
 
 export default async function VendedorPage() {
